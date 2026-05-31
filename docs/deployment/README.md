@@ -2,6 +2,12 @@
 
 Docker setup, Kubernetes configuration, cloud infrastructure, and CI/CD pipeline documentation.
 
+## Files
+
+| File | Description |
+|------|-------------|
+| [LOCAL-SETUP.md](./LOCAL-SETUP.md) | Complete guide to run the project locally using Docker |
+
 ## What goes here
 - Local development setup guide (Docker Compose)
 - Production deployment guide

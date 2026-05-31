@@ -299,4 +299,80 @@ Use this checklist every time a new microservice is extracted:
 
 ---
 
+---
+
+## 14. Versioned Evolution Plan
+
+This is the exact roadmap for how this system evolves from a Modular Monolith to a distributed architecture. Each version is a milestone, not a deadline.
+
+### Version 1 — Modular Monolith (Current)
+
+**What it is:** One deployable NestJS application, all modules in one codebase.
+
+**Infrastructure:**
+```
+Docker
+├── PostgreSQL      ← all data
+├── Redis           ← cache, sessions, rate limiting, BullMQ queues
+└── NGINX           ← reverse proxy, SSL termination
+```
+
+**When to move to V2:** When Notifications volume becomes a bottleneck OR when a separate team needs to own it.
+
+---
+
+### Version 2 — Extract Notifications Service
+
+**What changes:** Pull the `notifications` module out as a standalone NestJS app.
+
+**Why Notifications first:**
+- Zero business logic dependencies (it only sends messages, never reads domain data)
+- Purely event-driven — receives events, sends SMS/email/push/WhatsApp
+- Can be deployed, scaled, and updated independently with zero risk to the core app
+- Easiest service to extract and validate the microservice pattern on
+
+**After extraction:**
+```
+Monolith → publishes events to Redis (BullMQ) → Notifications Service consumes them
+```
+
+---
+
+### Version 3 — Extract Analytics Service
+
+**What changes:** Pull the `analytics` module out as a standalone service.
+
+**Why Analytics second:**
+- Read-only — it only reads data, never writes to core tables
+- Can use PostgreSQL read replicas as its data source
+- Heavy report generation was slowing down the monolith's DB connections
+- Can have its own data store (e.g., ClickHouse or a dedicated analytics DB) later
+
+---
+
+### Version 4 — Extract Ordering Service
+
+**What changes:** Pull `orders`, `pos`, and `kitchen` out as the Ordering Service.
+
+**Why Ordering last among early extractions:**
+- Highest traffic module — most valuable to isolate when under load
+- Complex — depends on inventory, payments, notifications, menu
+- Needs proper event-driven decoupling from all dependent modules first
+- By the time you reach V4, you should have thousands of restaurants using the system
+
+---
+
+### What We Will NOT Do (Until Absolutely Necessary)
+
+| Technology | Why We're Skipping It |
+|------------|----------------------|
+| ❌ Kafka | Overkill for current scale. BullMQ + Redis handles our queue needs. Add Kafka only when you need millions of events/sec |
+| ❌ Kubernetes | Too complex to operate early. Use Docker Compose → Docker Swarm → K8s in that order |
+| ❌ Service Mesh | Only needed when you have 10+ microservices with complex routing |
+| ❌ Distributed Transactions (Saga) | Avoid until absolutely needed. Use eventual consistency via events |
+| ❌ CQRS everywhere | Only apply where truly needed (e.g. Analytics reads vs writes) |
+| ❌ RabbitMQ | BullMQ already gives us reliable queues on Redis. Add RabbitMQ only if we need routing/fanout across many services |
+
+---
+
 *Revisit and update this document before each service extraction.*

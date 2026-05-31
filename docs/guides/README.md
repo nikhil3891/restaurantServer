@@ -6,6 +6,7 @@ Onboarding guides, coding standards, contribution workflows, and best practices.
 
 | File | Description |
 |------|-------------|
+| [DEV-LOG.md](./DEV-LOG.md) | Daily development log — what was built, where, and why |
 | [HOW-NESTJS-WORKS.md](./HOW-NESTJS-WORKS.md) | Complete walkthrough of NestJS boot process and request lifecycle |
 
 ## What goes here

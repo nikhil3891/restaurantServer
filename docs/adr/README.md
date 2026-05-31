@@ -32,4 +32,8 @@ What are the positive and negative results of this decision?
 
 | ADR | Title | Status | Date |
 |-----|-------|--------|------|
-| — | No decisions recorded yet | — | — |
+| [ADR-001](./ADR-001-prisma-over-typeorm.md) | Use Prisma instead of TypeORM | Accepted | 31 May 2026 |
+| [ADR-002](./ADR-002-swagger-for-api-docs.md) | Use Swagger (OpenAPI) for API documentation | Accepted | 31 May 2026 |
+| [ADR-003](./ADR-003-bullmq-over-rabbitmq.md) | Use BullMQ instead of RabbitMQ or Kafka | Accepted | 31 May 2026 |
+| [ADR-004](./ADR-004-socketio-for-realtime.md) | Use Socket.IO for real-time features | Accepted | 31 May 2026 |
+| [ADR-005](./ADR-005-nestjs-eventemitter-for-internal-events.md) | Use NestJS EventEmitter for internal module communication | Accepted | 31 May 2026 |
