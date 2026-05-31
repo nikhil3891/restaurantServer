@@ -2,6 +2,12 @@
 
 Onboarding guides, coding standards, contribution workflows, and best practices.
 
+## Files
+
+| File | Description |
+|------|-------------|
+| [HOW-NESTJS-WORKS.md](./HOW-NESTJS-WORKS.md) | Complete walkthrough of NestJS boot process and request lifecycle |
+
 ## What goes here
 - Developer onboarding guide (how to run the project locally)
 - Coding standards and conventions (naming, folder structure)
